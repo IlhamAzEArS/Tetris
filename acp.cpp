@@ -121,13 +121,16 @@ void Admin::change()
 }
 void Admin::Admin_Panel()
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	const int saved_colors = GetConsoleTextAttribute(hConsole);
 	int a = 0;
 	while (1)
 	{
+		SetConsoleTextAttribute(hConsole, 241);
 		cout << "ADMIN PANEL\n";
 		cout << "Creat New User[1]" << endl;
 		cout << "";
-
+		SetConsoleTextAttribute(hConsole, saved_colors);
 
 
 
@@ -139,22 +142,10 @@ void Admin::ADMIN_PANEL_ENTER()
 {
 	int a;
 	if (Login()) {
-		while (true)
-		{
-			GotoXY(50, 9);
-			cout << "Chance Admin Login Pass[1]";
-			cin >> a;
-			cin.ignore();
-			if (a == 1)
-			{
-				//Chance Admin Login Pass
-				system("cls");
-				change();
-				system("cls");
-			}
-
+		Admin_Panel();
 		}
-	}
+
+	
 }
 
 /*User Control */
