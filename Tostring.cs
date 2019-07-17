@@ -16,48 +16,49 @@ namespace ConsoleApp3
             string[,,] TestExam = new string[7, 4, 1] {
 
                 {
-                 {"1ci sual" },
-                {"Men1" },
-                {"Sen1" },
-                {"biz1" }
+                 {"Q 1 - Which of the following is correct about variable naming conventions in C#???\n" },
+                {" - It should not be a C# keyword.\n" },
+                {" - It must not contain any embedded space or symbol such as? - + ! @ # % ^ & * ( ) [ ] { }\n" },
+                {" - Both of the above.\n" }
                 },
-                {{"2ci sual" },
-                {"Men2" },
-                {"Sen2" },
-                {"biz2" }
+                {
+                {"Q 2 - Which of the following defines boxing correctly???\n" },
+                {"When a value type is converted to object type, it is called boxing.\n" },
+                {"When an object type is converted to a value type, it is called boxing.\n" },
+                {"Both of the above.\n" }
                 },
-                {{"3ci sual" },
-                {"Men3" },
-                {"Sen3" },
-                {"biz3" }
+                {{"Q 3 - Which of the following converts a type to a 64-bit integer in C#???\n" },
+                {"ToSingle\n" },
+                {"ToSbyte\n" },
+                {"ToInt64\n" }
                 },
-                {{"4ci sual" },
-                {"Men4" },
-                {"Sen4" },
-                {"biz4" }
+                {{"Q 4 - Which of the following converts a type to an unsigned big type in C#?\n" },
+                {"ToType\n" },
+                {"ToUInt16\n" },
+                {"ToUInt64\n" }
                 },
-                {{"5ci sual" },
-                {"Men5" },
-                {"Sen5" },
-                {"biz5" }
+                {{"Q 5 - Which of the following access specifier in C# allows a class to expose its member variables and member functions to other functions and objects???\n" },
+                {"Protected\n" },
+                {"Private\n" },
+                {"Public\n" }
                 },
-                {{"6ci sual" },
-                {"Men6" },
-                {"Sen6" },
-                {"biz6" }
+                {{"Q 6 - Which of the following is true about C# structures?\n" },
+                {"Unlike classes, structures cannot inherit other structures or classes." },
+                {"Structure members cannot be specified as abstract, virtual, or protected." },
+                {"All of the above." }
                 },
-                {{"7ci sual" },
-                {"Men7" },
-                {"Sen7" },
-                {"biz7" }
+                {{"Q 7 - Which of the following is the correct about class member variables?\n" },
+                {"These private variables can only be accessed using the public member functions.\n" },
+                {"Member variables are the attributes of an object (from design perspective) and they are kept private to implement encapsulation.\n" },
+                {"Both of the above.\n" }
                 },
 
             };
             Random Next_ = new Random();
             string[,] new_Exam = new string[4, 1];
             int rand_n;
-                string[] input = new string[] {"Men1","Men2" ,"Men3", "Men4", "Men5", "Men6","Men7"};
-
+            string[] input = new string[] { " - Both of the above.\n", "A - When a value type is converted to object type, it is called boxing.\n", "ToInt64\n", "ToUInt64\n", "Public\n", "All of the above.\n", "Both of the above.\n" };
+            string yess;
             while (true)
             {
                 
@@ -66,9 +67,9 @@ namespace ConsoleApp3
                 
                 
                 new_Exam[0, 0] = TestExam[rand, 0, 0];
-                
+                yess = input[rand];
 
-                for (int i = 1, j = 0, k = 1; i < 4; i++)
+                for (int i = 1, j = 0; i < 4; i++)
                 { 
                     rand_n = Next_.Next(1, 4);
                     while (true)
@@ -86,39 +87,75 @@ namespace ConsoleApp3
                     }
                 }
 
-                int intTemp = Convert.ToInt32(Console.ReadLine());
-
-
-                    if (new_Exam[intTemp, 0] == input[intTemp])
+                while (true)
+                {
+                    int intTemp = Convert.ToInt32(Console.ReadLine());
+                    
+                    if (intTemp > 3)
+                    {
+                        continue;
+                    }
+                    Console.Clear();
+                    if (new_Exam[intTemp, 0] == yess)
                     {
                         for (int i = 0; i < 4; i++)
                         {
                             for (int j = 0; j < 1; j++)
                             {
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.WriteLine(new_Exam[i, j]);
-                                Console.ResetColor();
+                                if (new_Exam[i, 0] == yess)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine(new_Exam[i, j]);
+                                    Console.ResetColor();
+                                }
+                                if(new_Exam[i,0] == new_Exam[intTemp,0])
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine(new_Exam[intTemp,0]);
+                                    Console.ResetColor();
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine(new_Exam[i, j]);
+                                    Console.ResetColor();
+                                }
 
                             }
                         }
+                       
+                        break;
                     }
-                else
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if(new_Exam[])
-                        /*
-                        burda qalmnisham 
-                        
-                        */
-                    Console.BackgroundColor = ConsoleColor.Blue;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("");
-                    Console.ResetColor();
 
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            for (int j = 0; j < 1; j++)
+                            {
+                                if (new_Exam[i, 0] == yess)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    Console.WriteLine(new_Exam[i, j]);
+                                    Console.ResetColor();
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine(new_Exam[i, j]);
+                                    Console.ResetColor();
+                                }
+
+                            }
+                        }
+                    break;
                     }
+
                 }
-                
+                Console.WriteLine("Enter a Next Q.");
+                Console.ReadKey();
+                Console.Clear();
+
 
 
             }
