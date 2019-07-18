@@ -19,7 +19,7 @@ namespace ConsoleApp3
         public string MiddleName { get; set; }
         public string Full_Name { get; set; }
         public string Address { get; set; }
-        public string Phone { get; set; }
+        public long Phone { get; set; }
         public override string ToString()
         {
             return $"{name} {name} {MiddleName} {Full_Name} {Address} {Phone}";
@@ -48,43 +48,68 @@ namespace ConsoleApp3
             }
         }
 
-        public PhoneBook this[string vendor, string model]
+        public PhoneBook[] this[string name, string SurName_]
+        {
+            get
+            {
+                PhoneBook[] result1 = null;
+                int sCount = 0;
+                for (int i = 0; i < Count; i++)
+                {
+                    if (phones[i].name == name && phones[i].surname == SurName_)
+                        sCount++;
+                }
+                if (sCount == 0) { return result1; }
+                result1 = new PhoneBook[sCount];
+                int count = 0;
+                for (int i = 0; i < Count; i++)
+                {
+                    if (phones[i].name == name && phones[i].surname == SurName_)
+                    {
+                        result1[count] = phones[i];
+                        count++;
+                    }
+                }
+                return result1;
+            }
+        }
+        public PhoneBook[] this[string name]
+        {
+            get
+            {
+                PhoneBook[] result1 = null;
+                int sCount = 0;
+                for (int i = 0; i < Count; i++)
+                {
+                    if (phones[i].name == name)
+                        sCount++;
+                }
+                if (sCount == 0) return result1;
+                result1 = new PhoneBook[sCount];
+                int count = 0;
+                for (int i = 0; i < Count; i++)
+                {
+                    if (phones[i].name == name)
+                    {
+                        result1[count] = phones[i];
+                        count++;
+                    }
+                }
+                return result1;
+            }
+        }
+        public PhoneBook this[long Phone_]
         {
             get
             {
                 for (int i = 0; i < Count; i++)
                 {
-                    if (phones[i].name == vendor)
+                    if (phones[i].Phone == Phone_)
                     {
                         return phones[i];
                     }
                 }
                 return null;
-            }
-        }
-        public PhoneBook[] this[string vendor]
-        {
-            get
-            {
-                PhoneBook[] result = null;
-                int sCount = 0;
-                for (int i = 0; i < Count; i++)
-                {
-                    if (phones[i].name == vendor)
-                        sCount++;
-                }
-                if (sCount == 0) return result;
-                result = new PhoneBook[sCount];
-                int count = 0;
-                for (int i = 0; i < Count; i++)
-                {
-                    if (phones[i].name == vendor)
-                    {
-                        result[count] = phones[i];
-                        count++;
-                    }
-                }
-                return result;
             }
         }
     }
@@ -95,22 +120,30 @@ namespace ConsoleApp3
         {
 
             Contact shop = new Contact(5);
-            shop[0] = new PhoneBook() { name = "Ilham", surname = "bayramov", MiddleName =  "", Full_Name = "Ilham Bayramov" , Address = "Zaqatala",Phone = "0705310203"};
-            shop[1] = new PhoneBook() { name = "Orxan", surname = "Mutelibov",   MiddleName =  "" , Full_Name =  "Orxan Mutelibov",Address = "Baku",Phone = "0516985978"};
-            shop[2] = new PhoneBook() { name = "Mahmud", surname = "Mahmudov",   MiddleName = "", Full_Name = "Mahmud Mutelibov",Address = "Baku",Phone = "0512655487"};
-            shop[3] = new PhoneBook() { name = "Mahmud", surname = "Shabanov", MiddleName = "", Full_Name = "Mahmud Shabanov", Address = "SHEKI", Phone = "0779854865" };
-            shop[4] = new PhoneBook() { name = "Apple", surname = "iPhone 8 Plus", MiddleName = "", Full_Name = "", Address = "", Phone = "" };
+            shop[0] = new PhoneBook() { name = "Ilham", surname = "bayramov", MiddleName = "", Full_Name = "Ilham Bayramov", Address = "Zaqatala", Phone = 0705310203 };
+            shop[1] = new PhoneBook() { name = "Orxan", surname = "Mutelibov", MiddleName = "", Full_Name = "Orxan Mutelibov", Address = "Baku", Phone = 0516985978};
+            shop[2] = new PhoneBook() { name = "Mahmud", surname = "Mahmudov", MiddleName = "", Full_Name = "Mahmud Mutelibov", Address = "Baku", Phone = 0512655487 };
+            shop[3] = new PhoneBook() { name = "Mahmud", surname = "Shabanov", MiddleName = "", Full_Name = "Mahmud Shabanov", Address = "SHEKI", Phone = 0779854865 };
+            shop[4] = new PhoneBook() { name = "Apple", surname = "iPhone 8 Plus", MiddleName = "", Full_Name = "", Address = "", Phone = 994551998080 };
 
+       
 
-
+            /*Name i Surname Src*/
+            foreach (var item in shop["Mahmud", "bayramov"])
+            {
+                Console.WriteLine(item);
+            }
+            /*Name Src*/
+            Console.WriteLine(" ======= ");
             foreach (var item in shop["Mahmud"])
             {
                 Console.WriteLine(item);
             }
-
-
+            /*Phone  Src*/
+            Console.WriteLine(" +++++++++++ ");
+            Console.WriteLine(shop[(long)0516985978]);
 
         }
 
     }
-    }
+}
