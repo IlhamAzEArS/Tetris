@@ -43,9 +43,9 @@ namespace ConsoleApp3
                 {"Public\n" }
                 },
                 {{"Q 6 - Which of the following is true about C# structures?\n" },
-                {"Unlike classes, structures cannot inherit other structures or classes." },
-                {"Structure members cannot be specified as abstract, virtual, or protected." },
-                {"All of the above." }
+                {"Unlike classes, structures cannot inherit other structures or classes.\n" },
+                {"Structure members cannot be specified as abstract, virtual, or protected.\n" },
+                {"All of the above.\n" }
                 },
                 {{"Q 7 - Which of the following is the correct about class member variables?\n" },
                 {"These private variables can only be accessed using the public member functions.\n" },
@@ -59,38 +59,41 @@ namespace ConsoleApp3
             int rand_n;
             string[] input = new string[] { " - Both of the above.\n", "A - When a value type is converted to object type, it is called boxing.\n", "ToInt64\n", "ToUInt64\n", "Public\n", "All of the above.\n", "Both of the above.\n" };
             string yess;
+            int CountRand = 0;
             while (true)
             {
-                
-               
-                int rand = Next_.Next(0, 7);
-                
-                
+
+
+                int rand = Next_.Next(0, 6);
+                ++CountRand;
+
                 new_Exam[0, 0] = TestExam[rand, 0, 0];
                 yess = input[rand];
 
                 for (int i = 1, j = 0; i < 4; i++)
-                { 
+                {
                     rand_n = Next_.Next(1, 4);
                     while (true)
                     {
-                        if (new_Exam[1, j] == TestExam[rand, rand_n, j]){i--;break;}
-                        if (new_Exam[2, j] == TestExam[rand, rand_n, j]){i--;break;}
-                        else{new_Exam[i, j] = TestExam[rand, rand_n, j];break; }
+                        if (new_Exam[1, j] == TestExam[rand, rand_n, j]) { i--; break; }
+                        if (new_Exam[2, j] == TestExam[rand, rand_n, j]) { i--; break; }
+                        else { new_Exam[i, j] = TestExam[rand, rand_n, j]; break; }
                     }
 
                 }
-                 for (int i = 0; i < 4; i++) { 
-                    for (int j = 0; j < 1; j++) { 
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 1; j++)
+                    {
                         Console.WriteLine(new_Exam[i, j]);
-                    
+
                     }
                 }
 
                 while (true)
                 {
                     int intTemp = Convert.ToInt32(Console.ReadLine());
-                    
+
                     if (intTemp > 3)
                     {
                         continue;
@@ -102,28 +105,40 @@ namespace ConsoleApp3
                         {
                             for (int j = 0; j < 1; j++)
                             {
-                                if (new_Exam[i, 0] == yess)
+                                if(new_Exam[i,0]!= yess)
+                                {
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                        Console.WriteLine(new_Exam[i, 0]);
+                                        Console.ResetColor();
+                                }
+                                else
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.WriteLine(new_Exam[i, j]);
                                     Console.ResetColor();
                                 }
-                                if(new_Exam[i,0] == new_Exam[intTemp,0])
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine(new_Exam[intTemp,0]);
-                                    Console.ResetColor();
-                                }
-                                else
-                                {
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    Console.WriteLine(new_Exam[i, j]);
-                                    Console.ResetColor();
-                                }
+                                //if (new_Exam[i, 0] == yess)
+                                //{
+                                //    Console.ForegroundColor = ConsoleColor.Green;
+                                //    Console.WriteLine(new_Exam[i, j]);
+                                //    Console.ResetColor();
+                                //}
+                                //if (new_Exam[i, 0] == new_Exam[intTemp, 0])
+                                //{
+                                //    Console.ForegroundColor = ConsoleColor.Red;
+                                //    Console.WriteLine(new_Exam[intTemp, 0]);
+                                //    Console.ResetColor();
+                                //}
+                                //else
+                                //{
+                                //    Console.ForegroundColor = ConsoleColor.White;
+                                //    Console.WriteLine(new_Exam[i, 0]);
+                                //    Console.ResetColor();
+                                //}
 
                             }
                         }
-                       
+
                         break;
                     }
 
@@ -131,24 +146,28 @@ namespace ConsoleApp3
                     {
                         for (int i = 0; i < 4; i++)
                         {
-                            for (int j = 0; j < 1; j++)
-                            {
-                                if (new_Exam[i, 0] == yess)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Blue;
-                                    Console.WriteLine(new_Exam[i, j]);
-                                    Console.ResetColor();
-                                }
-                                else
-                                {
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    Console.WriteLine(new_Exam[i, j]);
-                                    Console.ResetColor();
-                                }
 
+                            if (new_Exam[i, 0] != yess)
+                            {
+                                if(new_Exam[i,0]==new_Exam[intTemp,0])
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine(new_Exam[i,0]);
+                                    Console.ResetColor();
+                                    continue;
+                                }
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.WriteLine(new_Exam[i, 0]);
+                                Console.ResetColor();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine(new_Exam[i, 0]);
+                                Console.ResetColor();
                             }
                         }
-                    break;
+                        break;
                     }
 
                 }
