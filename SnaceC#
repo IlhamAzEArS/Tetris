@@ -9,7 +9,223 @@ using System.Threading.Tasks;
 using System.Threading;
 
 namespace ConsoleGraphics
-{
+{class SnaceP
+    {
+        protected int Speed = 100;
+        protected bool alive = true;
+        protected bool Food = false;
+        protected int FoodX = 0;
+        protected int FoodY = 0;
+
+    }
+    class Control{
+       
+    }
+    class Snace : SnaceP
+    {
+
+        private string ControL = "right";
+        private int snakeLength = 8;
+        private int score = 0;
+        private int x = 20;
+        private int y = 20;
+        private int ColoR = 1;
+        private int[] SnaceX;
+        private int[] SnaceY;
+        private Random rnd = new Random(); 
+        public Snace()
+        {
+           this.SnaceX = new int[8] { 20, 19, 18, 17, 16, 15, 14, 13 };
+           this.SnaceY = new int[8] { 20, 20, 20, 20, 20, 20, 20, 20 };
+        }
+        public  void SnacE(ConsoleColor bgColor, ConsoleColor fgColor)
+        {
+
+            while (this.alive)
+            {
+                if (this.Food == false)
+                {
+                    bool collide = false;
+                    this.Food = true;
+                    this.FoodX = this.rnd.Next(4, Console.WindowWidth - 4);
+                    this.FoodY = this.rnd.Next(4, Console.WindowHeight - 4);
+
+                    for (int l = (this.SnaceX.Length - 1); l > 1; l--)
+                    {
+                        if (this.SnaceX[l] == this.FoodX & this.SnaceY[l] == this.FoodY)
+                        {
+                            collide = true;
+                        }
+                    }
+                    if (collide == true)
+                    {
+                        this.Food = false;
+                        break;
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(FoodX, FoodY);
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.BackgroundColor = bgColor;
+                        Console.Write("#");
+                        this.Food = true;
+                    }
+
+                }
+                
+
+                System.Threading.Thread.Sleep(Speed);
+                ColoR++;
+                ControL_Snace();
+
+                this.SnaceX[0] = x;
+                this.SnaceY[0] = y;
+
+                for (int l = (this.SnaceX.Length - 1); l > 0; l--)
+                {
+                    this.SnaceX[l] = this.SnaceX[l - 1];
+                    this.SnaceY[l] = this.SnaceY[l - 1];
+                }
+
+
+                try
+                {
+                    Console.SetCursorPosition(this.SnaceX[0], this.SnaceY[0]);
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    
+                    return;
+                }
+                if (this.ColoR == 2)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                }
+                else
+                {
+                    this.ColoR = 1;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                }
+                Console.ForegroundColor = fgColor;
+                Console.Write(" ");
+
+                try
+                {
+                    Console.SetCursorPosition(SnaceX[SnaceX.Length - 1], this.SnaceY[this.SnaceY.Length - 1]);
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    this.alive = false;
+                }
+                Console.BackgroundColor = bgColor;
+                Console.Write(" ");
+
+                if (x == FoodX & y == FoodY)
+                {
+                    this.Food = false;
+                    snakeLength += 1;
+                    Speed -= Speed / 16;
+                    new Thread(() => Console.Beep(320, 250)).Start();
+                }
+
+                for (int l = (this.SnaceX.Length - 1); l > 1; l--)
+                {
+                    if (this.SnaceX[l] == this.SnaceX[0] & this.SnaceY[l] == this.SnaceY[0])
+                    {
+                        this.alive = false;
+                    }
+
+                }
+                this.score = ((snakeLength) - 8);
+                Console.SetCursorPosition(2, 2);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.Write("Score: {0} ", score);
+
+            }
+        }
+        public void GameOver()
+        {
+
+            ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
+
+            for (int i = 0; i < 1; i++)
+            {
+                foreach (var color in colors)
+                {
+                    Console.SetCursorPosition(50, 2);
+                    Console.ForegroundColor = color;
+                    Console.Clear();
+                    Console.WriteLine("\n\n\n\n\n");
+                    Console.WriteLine("\n                       Game over :(");
+                    Console.WriteLine("\n\n                   Your score was: {0} !", score);
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+            Thread.Sleep(1000);
+            Console.WriteLine("\n\n\n\n\n\n             -- Press Any Key To Continue --");
+            Thread.Sleep(500);
+            Console.ReadKey(true);
+
+        }
+        public void ControL_Snace()
+        {
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.RightArrow:
+                        if (ControL != "left")
+                        {
+                            ControL = "right";
+                        }
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (ControL != "right")
+                        {
+                            ControL = "left";
+                        }
+                        break;
+                    case ConsoleKey.UpArrow:
+
+                        if (ControL != "down")
+                        {
+                            ControL = "up";
+                        }
+                        break;
+                    case ConsoleKey.DownArrow:
+
+                        if (ControL != "up")
+                        {
+                            ControL = "down";
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } //Inputs & ControL
+
+
+            if (this.ControL == "right")
+            {
+                this.x += 1;
+            }
+            else if (this.ControL == "left")
+            {
+                this.x -= 1;
+            }
+            else if (this.ControL == "down")
+            {
+                this.y += 1;
+            }
+            else if (this.ControL == "up")
+            {
+                this.y -= 1;
+            }
+        }
+
+    }
     class Program
     {
         static void Main(string[] args)
@@ -19,256 +235,23 @@ namespace ConsoleGraphics
 
                 Console.CursorVisible = (false);
                 Console.Title = "Snaaaaake!";
-
-
+                Snace Start = new Snace();
                 Console.SetWindowSize(56, 38);
-
+                //consul size 
                 Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.Clear();
-
                 ConsoleColor bgColor = Console.BackgroundColor;
                 ConsoleColor fgColor = Console.ForegroundColor;
-                int delay = 100;
-                string direction = "right";
-
-                int snakeLength = 8;
-
-                Random rnd = new Random();
-
-                int score = 0;
-                int x = 20;
-                int y = 20;
-                int colourTog = 1;
-                bool alive = true;
-                bool pelletOn = false;
-                int pelletX = 0;
-                int pelletY = 0;
-
-                int[] xPoints;
-                xPoints = new int[8] { 20, 19, 18, 17, 16, 15, 14, 13 };
-                int[] yPoints;
-                yPoints = new int[8] { 20, 20, 20, 20, 20, 20, 20, 20 };
-
-
-                while (alive)
-                {
-                    if (pelletOn == false)
-                    {
-                        bool collide = false;
-                        pelletOn = true;
-                        pelletX = rnd.Next(4, Console.WindowWidth - 4);
-                        pelletY = rnd.Next(4, Console.WindowHeight - 4);
-
-                        for (int l = (xPoints.Length - 1); l > 1; l--)
-                        {
-                            if (xPoints[l] == pelletX & yPoints[l] == pelletY)
-                            {
-                                collide = true;
-                            }
-                        }
-                        if (collide == true)
-                        {
-                            pelletOn = false;
-                            break;
-                        }
-                        else
-                        {
-                            Console.SetCursorPosition(pelletX, pelletY);
-                            Console.ForegroundColor = ConsoleColor.Cyan;
-                            Console.BackgroundColor = bgColor;
-                            Console.Write("#");
-                            pelletOn = true;
-                        }
-
-                    }
-                    Array.Resize<int>(ref xPoints, snakeLength);
-                    Array.Resize<int>(ref yPoints, snakeLength);
-
-                    System.Threading.Thread.Sleep(delay);
-                    colourTog++;
-                    if (Console.KeyAvailable)
-                    {
-                        ConsoleKeyInfo key = Console.ReadKey(true);
-                        switch (key.Key)
-                        {
-                            case ConsoleKey.RightArrow:
-                                if (direction != "left")
-                                {
-                                    direction = "right";
-                                }
-                                break;
-                            case ConsoleKey.LeftArrow:
-                                if (direction != "right")
-                                {
-                                    direction = "left";
-                                }
-                                break;
-                            case ConsoleKey.UpArrow:
-
-                                if (direction != "down")
-                                {
-                                    direction = "up";
-                                }
-                                break;
-                            case ConsoleKey.DownArrow:
-
-                                if (direction != "up")
-                                {
-                                    direction = "down";
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    } //Inputs & direction
-
-
-                    if (direction == "right")
-                    {
-                        x += 1;
-                    }
-                    else if (direction == "left")
-                    {
-                        x -= 1;
-                    }
-                    else if (direction == "down")
-                    {
-                        y += 1;
-                    }
-                    else if (direction == "up")
-                    {
-                        y -= 1;
-                    }
-
-                    xPoints[0] = x;
-                    yPoints[0] = y;
-
-                    for (int l = (xPoints.Length - 1); l > 0; l--)
-                    {
-                        xPoints[l] = xPoints[l - 1];
-                        yPoints[l] = yPoints[l - 1];
-                    }
-
-
-                    try
-                    {
-                        Console.SetCursorPosition(xPoints[0], yPoints[0]);
-                    }
-                    catch (System.ArgumentOutOfRangeException)
-                    {
-                        alive = false;
-                    }
-                    if (colourTog == 2)
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    }
-                    else
-                    {
-                        colourTog = 1;
-                        Console.BackgroundColor = ConsoleColor.Green;
-                    }
-                    Console.ForegroundColor = fgColor;
-                    Console.Write("*");
-
-                    try
-                    {
-                        Console.SetCursorPosition(xPoints[xPoints.Length - 1], yPoints[yPoints.Length - 1]);
-                    }
-                    catch (System.ArgumentOutOfRangeException)
-                    {
-                        alive = false;
-                    }
-                    Console.BackgroundColor = bgColor;
-                    Console.Write(" ");
-
-                    if (x == pelletX & y == pelletY)
-                    {
-                        pelletOn = false;
-                        snakeLength += 1;
-                        delay -= delay / 16;
-                        new Thread(() => Console.Beep(320, 250)).Start();
-                    }
-
-                    for (int l = (xPoints.Length - 1); l > 1; l--)
-                    {
-                        if (xPoints[l] == xPoints[0] & yPoints[l] == yPoints[0])
-                        {
-                            alive = false;
-                        }
-
-                    }
-                    score = ((snakeLength) - 8);
-                    Console.SetCursorPosition(2, 2);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write("Score: {0} ", score);
-
-                }
+                Start.SnacE(Console.BackgroundColor, Console.ForegroundColor);
                 new Thread(() => Console.Beep(37, 1)).Start();
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.Clear();
-                /*
-
-                Console.Beep(2093, 260);
-
-                Console.Beep(1319, 260);
-
-                Console.Beep(1047, 260);
-
-                Console.Beep(1319, 260);
-
-                Console.Beep(1760, 260);
-
-                Console.Beep(1319, 260);
-
-                Console.Beep(932, 260);
-
-                Console.Beep(784, 260);
-               
-
-                Console.Beep(2093, 200);
-
-                Console.Beep(1319, 200);
-
-                Console.Beep(1047, 200);
-
-                Console.Beep(1319, 200);
-
-                Console.Beep(1760, 200);
-
-                Console.Beep(1319, 200);
-                */
-
-                Console.Beep(831, 250);
-
-
                 Console.Beep(785, 250);
-
-                ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
-
-                for (int i = 0; i < 1; i++)
-                {
-                    foreach (var color in colors)
-                    {
-                        Console.SetCursorPosition(0, 0);
-                        Console.ForegroundColor = color;
-                        Console.Clear();
-                        Console.WriteLine("\n\n\n\n\n");
-                        Console.WriteLine("\n                       Game over :(");
-                        Console.WriteLine("\n\n                   Your score was: {0} !", score);
-                        System.Threading.Thread.Sleep(100);
-                    }
-                }
-                Thread.Sleep(1000);
-                Console.WriteLine("\n\n\n\n\n\n             -- Press Any Key To Continue --");
-                Thread.Sleep(500);
-                Console.ReadKey(true);
-                Console.ReadKey(true);
+                Start.GameOver();
                 goto game;
             }
         }
     }
 }
-
